@@ -23,3 +23,4 @@ int main() {
     cout << "Square root (floor) of " << n << " is: " << ans << endl;
     return 0;
 }
+
