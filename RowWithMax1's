@@ -1,0 +1,39 @@
+#include <vector>
+using namespace std;
+
+int lowerBound(vector<int> &arr, int n, int x) {
+    int low = 0;
+    int high = n - 1;
+    int ans = n;   // Default if no element >= x
+
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+
+        if (arr[mid] >= x) {
+            ans = mid;
+            high = mid - 1;   // Move left
+        } 
+        else {
+            low = mid + 1;    // Move right
+        }
+    }
+
+    return ans;
+}
+
+int rowWithMax1s(vector<vector<int>> &matrix, int n, int m) {
+    int cnt_max = 0;
+    int index = -1;
+
+    for (int i = 0; i < n; i++) {
+        int firstOneIndex = lowerBound(matrix[i], m, 1);
+        int countOnes = m - firstOneIndex;
+
+        if (countOnes > cnt_max) {
+            cnt_max = countOnes;
+            index = i;
+        }
+    }
+
+    return index;
+}
