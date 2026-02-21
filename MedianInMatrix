@@ -1,0 +1,46 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+// upperBound Function
+// Count elements <= x in the matrix
+int countLessEqual(vector<vector<int>> &matrix, int m, int n, int x) {
+    int cnt = 0;
+
+    for (int i = 0; i < m; i++) {
+        cnt += upper_bound(matrix[i].begin(), matrix[i].end(), x) 
+               - matrix[i].begin();
+    }
+
+    return cnt;
+}
+
+int median(vector<vector<int>> &matrix) {
+
+    int m = matrix.size();        // rows
+    int n = matrix[0].size();     // columns
+
+    int low = INT_MAX;
+    int high = INT_MIN;
+
+    // Find minimum and maximum element in matrix
+    for (int i = 0; i < m; i++) {
+        low = min(low, matrix[i][0]);          // first column
+        high = max(high, matrix[i][n - 1]);    // last column
+    }
+
+    int req = (m * n) / 2;   // required position
+
+    while (low <= high) {
+
+        int mid = low + (high - low) / 2;
+
+        int smallEqual = countLessEqual(matrix, m, n, mid);
+
+        if (smallEqual <= req)
+            low = mid + 1;
+        else
+            high = mid - 1;
+    }
+
+    return low;
+}
